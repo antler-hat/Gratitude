@@ -86,7 +86,7 @@
       border-radius: 8px;
       color: #e0e0e0;
       font-family: inherit;
-      font-size: 1rem;
+      font-size: 16px;
       padding: 14px 16px;
       resize: vertical;
       outline: none;
@@ -300,6 +300,14 @@
       answers.fill("");
       goTo(0);
     }
+
+    // Reset viewport scale when textarea loses focus (prevents iOS stuck-zoom)
+    document.addEventListener("focusout", (e) => {
+      if (e.target.tagName === "TEXTAREA") {
+        const viewport = document.querySelector("meta[name=viewport]");
+        viewport.setAttribute("content", "width=device-width, initial-scale=1.0");
+      }
+    });
 
     // Start
     goTo(0);
