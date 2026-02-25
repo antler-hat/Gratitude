@@ -36,11 +36,11 @@
     }
 
     .stepper .step.done {
-      background: #7c9a6e;
+      background: #73c2f0;
     }
 
     .stepper .step.active {
-      background: #a3c293;
+      background: #a8d9f5;
     }
 
     .container {
@@ -93,7 +93,7 @@
     }
 
     textarea:focus {
-      border-color: #7c9a6e;
+      border-color: #73c2f0;
     }
 
     textarea::placeholder {
@@ -116,12 +116,12 @@
     }
 
     .btn-primary {
-      background: #7c9a6e;
+      background: #73c2f0;
       color: #121212;
     }
 
     .btn-primary:hover {
-      background: #8dac7e;
+      background: #8dcef3;
     }
 
     .btn-secondary {
@@ -259,8 +259,10 @@
       if (index < questions.length) {
         const card = document.getElementById("q" + index);
         card.classList.add("active");
-        // Restore answer
-        card.querySelector("textarea").value = answers[index];
+        // Restore answer and focus
+        const ta = card.querySelector("textarea");
+        ta.value = answers[index];
+        ta.focus();
         stepper.style.display = "flex";
       } else if (index === questions.length) {
         showReview();
@@ -284,6 +286,7 @@
         list.appendChild(item);
       });
       reviewCard.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "instant" });
     }
 
     function finish() {
