@@ -88,9 +88,9 @@
     }
 
     .question {
-      font-size: 1.25rem;
-      font-weight: 500;
-      color: var(--color-text-secondary);
+      font-size: 1rem;
+      font-weight: normal;
+      color: var(--color-text-muted);
       line-height: 1.5;
     }
 
@@ -176,9 +176,14 @@
     /* Done page */
     .done-message {
       text-align: center;
-      font-size: 1.15rem;
-      color: var(--color-text-muted);
+      font-size: 1  rem;
+      color: var(--color-text);
       line-height: 1.7;
+    }
+
+    .share-message-label {
+      font-size: 0.85rem;
+      text-align: center;
     }
 
     .share-panel {
@@ -188,7 +193,7 @@
     }
 
     .share-panel textarea {
-      min-height: 100px;
+      min-height: 0;
     }
 
     .share-panel .actions {
@@ -227,16 +232,16 @@
     <!-- Done card -->
     <div class="card" id="done">
       <p class="done-message">
-        That's it. No data saved, nothing stored.<br>
-        The gratitude was the point.<br><br>
-        See you tomorrow.
+        Nicely done.<br>
+        No data was saved. The point is the exercise!<br>
+        Come back tomorrow.
       </p>
       <div class="share-panel">
-        <label class="question" for="share-message">Let your accountability buddy know</label>
+        <label class="question share-message-label" for="share-message">Let somebody know:</label>
         <textarea id="share-message">I did my daily gratitude today ✅</textarea>
         <div class="actions">
-          <button id="share-button" class="btn-primary" onclick="shareCompletion()" hidden>Share message</button>
-          <button class="btn-secondary" onclick="copyCompletion()">Copy message</button>
+          <button id="share-button" class="btn-primary" onclick="shareCompletion()" hidden>Share</button>
+          <button class="btn-secondary" onclick="copyCompletion()">Copy</button>
         </div>
         <p id="share-status" role="status"></p>
       </div>
@@ -287,7 +292,7 @@
         <textarea placeholder="Write here..." oninput="answers[${i}]=this.value"></textarea>
         <div class="actions">
           ${i > 0 ? `<button class="btn-secondary" onclick="goTo(${i - 1})">&larr; Back</button>` : ""}
-          <button class="btn-primary" onclick="goTo(${i + 1})">Continue</button>
+          <button class="btn-primary" onclick="goTo(${i + 1})">Next</button>
         </div>
       `;
       container.insertBefore(card, reviewCard);
