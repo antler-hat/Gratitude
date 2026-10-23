@@ -166,6 +166,26 @@
       line-height: 1.7;
     }
 
+    .share-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .share-panel textarea {
+      min-height: 100px;
+    }
+
+    .share-panel .actions {
+      flex-wrap: wrap;
+    }
+
+    #share-status {
+      color: #c8c8c8;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
     @media (max-width: 600px) {
       .container {
         justify-content: flex-start;
@@ -196,6 +216,15 @@
         The gratitude was the point.<br><br>
         See you tomorrow.
       </p>
+      <div class="share-panel">
+        <label class="question" for="share-message">Let your accountability buddy know</label>
+        <textarea id="share-message">I did my daily gratitude today ✅</textarea>
+        <div class="actions">
+          <button id="share-button" class="btn-primary" onclick="shareCompletion()" hidden>Share message</button>
+          <button class="btn-secondary" onclick="copyCompletion()">Copy message</button>
+        </div>
+        <p id="share-status" role="status"></p>
+      </div>
       <div class="actions" style="justify-content:center;">
         <button class="btn-secondary" onclick="restart()">Start over</button>
       </div>
@@ -218,6 +247,9 @@
     const stepper = document.getElementById("stepper");
     const reviewCard = document.getElementById("review");
     const doneCard = document.getElementById("done");
+    const shareMessage = document.getElementById("share-message");
+    const shareStatus = document.getElementById("share-status");
+    document.getElementById("share-button").hidden = typeof navigator.share !== "function";
 
     // Build stepper dots
     questions.forEach((_, i) => {
@@ -258,7 +290,7 @@
     function goTo(index) {
       // Save current textarea value
       const currentTextarea = document.querySelector(".card.active textarea");
-      if (currentTextarea) {
+      if (currentTextarea && current < questions.length) {
         answers[current] = currentTextarea.value;
       }
 
@@ -303,8 +335,44 @@
       stepper.style.display = "none";
     }
 
+    async function shareCompletion() {
+      shareStatus.textContent = "";
+      const text = shareMessage.value.trim();
+      if (!text) {
+        shareStatus.textContent = "Write a message first.";
+        shareMessage.focus();
+        return;
+      }
+      try {
+        await navigator.share({ text });
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          shareStatus.textContent = "Couldn't open sharing. Try Copy message instead.";
+        }
+      }
+    }
+
+    async function copyCompletion() {
+      shareStatus.textContent = "";
+      const text = shareMessage.value.trim();
+      if (!text) {
+        shareStatus.textContent = "Write a message first.";
+        shareMessage.focus();
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        shareStatus.textContent = "Message copied. Paste it into a text to your buddy.";
+      } catch {
+        shareMessage.focus();
+        shareMessage.select();
+        shareStatus.textContent = "Couldn't copy automatically. Copy the selected message and paste it into your text.";
+      }
+    }
+
     function restart() {
       answers.fill("");
+      shareStatus.textContent = "";
       goTo(0);
     }
 
