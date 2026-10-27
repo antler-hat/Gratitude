@@ -4,7 +4,7 @@ import test from 'node:test';
 import vm from 'node:vm';
 
 const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
-const handlers = html.slice(html.indexOf('    async function shareCompletion()'), html.indexOf('    function restart()'));
+const handlers = html.slice(html.indexOf('    async function shareCompletion()'), html.indexOf('    // Reset viewport scale'));
 
 function setup(navigator, value = 'I did my daily gratitude today ✅') {
   const shareMessage = {
@@ -65,3 +65,4 @@ test('empty messages are not shared or copied', async () => {
     assert.equal(context.shareMessage.focused, true);
   }
 });
+

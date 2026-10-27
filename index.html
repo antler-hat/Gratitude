@@ -96,7 +96,7 @@
 
     textarea {
       width: 100%;
-      min-height: 140px;
+      min-height: 112px;
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: 8px;
@@ -351,7 +351,7 @@
         // Restore answer and focus
         const ta = card.querySelector("textarea");
         ta.value = answers[index];
-        ta.focus();
+        ta.focus({ preventScroll: true });
         stepper.style.display = "flex";
       } else if (index === questions.length) {
         showReview();
@@ -360,6 +360,8 @@
 
       current = index;
       updateStepper();
+      // Reset after rendering and focus, for both Next and Back navigation.
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
 
     function showReview() {
@@ -375,7 +377,6 @@
         list.appendChild(item);
       });
       reviewCard.classList.add("active");
-      window.scrollTo({ top: 0, behavior: "instant" });
     }
 
     function finish() {
@@ -433,3 +434,4 @@
 
 </body>
 </html>
+
